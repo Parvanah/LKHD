@@ -1,12 +1,17 @@
-
 import { BASE_URL } from "../config";
-import { AsyncStorage } from "react";
+
 import axios from "axios";
-import React, {setStatusCode, Authorization, createContext, useEffect, useState } from "react";
-axios.defaults.baseURL = "http://192.168.43.29:8000/api/v1";
+import React, {
+  setStatusCode,
+  Authorization,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
+axios.defaults.baseURL = "http://192.168.43.80:8000/api/v1";
 axios.defaults.timeout = 3000;
 
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import localStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           console.log("get");
           let userInformation = res.data;
-          AsyncStorage.setItem("userInfo", JSON.stringify(userInformation));
+          localStorage.setItem("userInfo", JSON.stringify(userInformation));
           setUserInfo(userInformation);
 
           setIsLoading(false);
@@ -39,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  const register = async (name, email, password,confirmpassword) => {
+  const register = async (name, email, password, confirmpassword) => {
     try {
       setIsLoading(true);
       const response = await axios.post(`${BASE_URL}/auth/register`, {
@@ -48,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         name,
         confirmpassword,
       });
-      console.log(response.data); 
+      console.log(response.data);
       setIsLoading(false);
     } catch (error) {
       console.log(email);
@@ -67,7 +72,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(response.status);
       // let userInformation = response.data;
       // // setUserInfo(userInfo);
-      // // AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+      // // localStorage.setItem("userInfo", JSON.stringify(userInfo));
       // setIsLoading(false);
       // var accsess_token = userInformation.token;
       const statusCode = response?.status;
@@ -136,7 +141,7 @@ export const AuthProvider = ({ children }) => {
   //     let userInfo = res.data;
   //     console.log(userInfo);
   //     setUserInfo(userInfo);
-  //     AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+  //     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   //     setIsLoading(false);
 
   //   }).catch(e => {
@@ -156,7 +161,7 @@ export const AuthProvider = ({ children }) => {
       console.log("put");
       console.log(response.data);
 
-      AsyncStorage.setItem(
+      localStorage.setItem(
         "userInfo",
         JSON.stringify({ ...userInfo, user: response?.data })
       );
@@ -179,7 +184,7 @@ export const AuthProvider = ({ children }) => {
       });
       console.log(response?.data);
       setUserInfo(response?.data);
-      AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
       setIsLoading(false);
     } catch (error) {
@@ -231,7 +236,7 @@ export const AuthProvider = ({ children }) => {
   const isLoggedIn = async () => {
     try {
       setSplashLoading(true);
-      let userInfo = await AsyncStorage.getItem("userInfo");
+      let userInfo = await localStorage.getItem("userInfo");
       userInfo = JSON.parse(userInfo);
 
       if (userInfo) {
@@ -246,7 +251,7 @@ export const AuthProvider = ({ children }) => {
   const Loggout = () => {
     try {
       setIsLoading(true);
-      AsyncStorage.removeItem("userInfo");
+      localStorage.removeItem("userInfo");
       setUserInfo(null);
       setIsLoading(false);
     } catch (e) {
@@ -281,7 +286,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// import { AsyncStorage } from "react";
+// import { localStorage } from "react";
 // import axios from "axios";
 // import React, { createContext, useEffect, useState } from "react";
 // import { useTranslation } from "react-i18next";
@@ -309,7 +314,7 @@ export const AuthProvider = ({ children }) => {
 //         .then((res) => {
 //           console.log("get");
 //           let userInformation = res.data;
-//           AsyncStorage.setItem("userInfo", JSON.stringify(userInformation));
+//           localStorage.setItem("userInfo", JSON.stringify(userInformation));
 //           setUserInfo(userInformation);
 
 //           setIsLoading(false);
@@ -330,7 +335,7 @@ export const AuthProvider = ({ children }) => {
 //             password,
 //             name,
 //           });
-//           console.log(response.data); 
+//           console.log(response.data);
 //           setIsLoading(false);
 //         } catch (error) {
 //           console.log(email);
@@ -423,7 +428,7 @@ export const AuthProvider = ({ children }) => {
 //   //     let userInfo = res.data;
 //   //     console.log(userInfo);
 //   //     setUserInfo(userInfo);
-//   //     AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+//   //     localStorage.setItem('userInfo', JSON.stringify(userInfo));
 //   //     setIsLoading(false);
 
 //   //   }).catch(e => {
@@ -444,7 +449,7 @@ export const AuthProvider = ({ children }) => {
 //       console.log("put");
 //       console.log(response.data);
 
-//       AsyncStorage.setItem(
+//       localStorage.setItem(
 //         "userInfo",
 //         JSON.stringify({ ...userInfo, user: response?.data })
 //       );
@@ -509,7 +514,7 @@ export const AuthProvider = ({ children }) => {
 //   const AfterVarify = () => {
 //     setIsLoading(true);
 //     setUserInfo(temp);
-//     AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+//     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 //     setIsLoading(false);
 //   };
 //   const verifyEmail = async (email) => {
@@ -536,7 +541,7 @@ export const AuthProvider = ({ children }) => {
 //   const isLoggedIn = async () => {
 //     try {
 //       setSplashLoading(true);
-//       let userInfo = await AsyncStorage.getItem("userInfo");
+//       let userInfo = await localStorage.getItem("userInfo");
 //       userInfo = JSON.parse(userInfo);
 
 //       if (userInfo) {
@@ -551,7 +556,7 @@ export const AuthProvider = ({ children }) => {
 //   const Loggout = () => {
 //     try {
 //       setIsLoading(true);
-//       AsyncStorage.removeItem("userInfo");
+//       localStorage.removeItem("userInfo");
 //       setUserInfo(null);
 //       setIsLoading(false);
 //     } catch (e) {
@@ -589,7 +594,7 @@ export const AuthProvider = ({ children }) => {
 //     </AuthContext.Provider>
 //   );
 // };
-// // import {AsyncStorage} from "react";
+// // import {localStorage} from "react";
 // // import axios from "axios";
 // // import React, { createContext, useEffect, useState } from "react";
 // // import config, { BASE_URL } from "../config";
@@ -644,7 +649,7 @@ export const AuthProvider = ({ children }) => {
 // //   //     let userInfo = res.data;
 // //   //     console.log(userInfo);
 // //   //     setUserInfo(userInfo);
-// //   //     AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+// //   //     localStorage.setItem('userInfo', JSON.stringify(userInfo));
 // //   //     setIsLoading(false);
 
 // //   //   }).catch(e => {
@@ -691,7 +696,7 @@ export const AuthProvider = ({ children }) => {
 // //   const isLoggedIn = async () => {
 // //     try {
 // //       setSplashLoading(true);
-// //       let userInfo = await AsyncStorage.getItem("userInfo");
+// //       let userInfo = await localStorage.getItem("userInfo");
 // //       userInfo = JSON.parse(userInfo);
 
 // //       if (userInfo) {
@@ -723,4 +728,3 @@ export const AuthProvider = ({ children }) => {
 // //     </AuthContext.Provider>
 // //   );
 // // };
-
