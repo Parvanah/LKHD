@@ -3,7 +3,7 @@ import { AuthContext } from "./App/context/AuthContext";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import './App.css';
+import "./App.css";
 import Header from "./App/components/Header/Header";
 import SingUp from "./App/screens/SingUp/SingUp";
 import LogIn from "./App/screens/Login/LogIn";
@@ -28,11 +28,7 @@ function App() {
   const { userInfo } = useContext(AuthContext);
   console.log(userInfo);
   return (
-    <Router 
-    screenOptions={{ headerShown: false }}
-    initialRouteName="FirstPage"
-    >
-       {userInfo !== null ? (
+    <Router screenOptions={{ headerShown: false }} initialRouteName="FirstPage">
       <Routes>
         <Route exact path="/header" element={<Header />} />
         <Route path="/section" element={<Section />} />
@@ -42,22 +38,23 @@ function App() {
         <Route path="/lessons" element={<Lessons />} />
         <Route path="/grad" element={<Grad />} />
         <Route path="/book" element={<Book />} />
-        <Route path="/downloading" element={<Downloading/>}/>
+        <Route path="/downloading" element={<Downloading />} />
         <Route path="/continue" element={<Continue />} />
         <Route path="/about" element={<About />} />
         <Route path="/suggestion" element={<Suggestion />} />
         <Route path="/changeprofile" element={<ChangeProfile />} />
         <Route path="/profile" element={<Profile />} />
-        </Routes>
-  ) : (
-        <Routes>
-        <Route exact path="/" element={<SingUp />} />
+
+        <Route
+          exact
+          path="/"
+          element={userInfo === null ? <SingUp /> : <Header />}
+        />
         <Route exact path="/login" element={<LogIn />} />
         <Route exact path="/forgotpassword" element={<ForgotPassword />} />
         <Route exact path="/sendcode" element={<SendCode />} />
         <Route exact path="/newpassword" element={<NewPassword />} />
       </Routes>
-       )}
     </Router>
   );
 }
